@@ -23,8 +23,6 @@ class Layer:
         self.neurons = [Neuron(nin) for _ in range(nout)]
     
     def __call__(self, x):
-        assert len(x) == len(self.neurons), "need same amount of input lists as neurons"
-
         outs = [n(x) for n in self.neurons]
         return outs[0] if len(outs) == 1 else outs
 
@@ -39,7 +37,7 @@ class MLP:
         self.layers = [Layer(sz[i], sz[i+1]) for i in range(len(nouts))]
     
     def __call__(self, x):
-        assert len(x) == len(self.nin), "need same amount of inputs lists as neuron inputs"
+        assert len(x) == self.nin, "need same amount of inputs lists as neuron inputs"
 
         for layer in self.layers:
             x = layer(x)

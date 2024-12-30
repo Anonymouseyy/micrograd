@@ -25,7 +25,7 @@ class Value:
         return out
 
     def __radd__(self, other): # Fallback for other + self (const + Value)
-        return other + self
+        return self + other
     
     def __mul__(self, other):
         other = other if isinstance(other, Value) else Value(other)
@@ -52,10 +52,10 @@ class Value:
     
     def __pow__(self, other):
         assert isinstance(other, (int, float)), "only int/float powers"
-        out = Value(self.value**other, (self, ), f'**{other}')
+        out = Value(self.data**other, (self, ), f'**{other}')
 
         def _backward():
-            self.grad += other * self.data**(other-1) * self.grad
+            self.grad += other * self.data**(other-1) * out.grad
 
         out._backward = _backward
         return out
