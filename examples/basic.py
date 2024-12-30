@@ -30,12 +30,12 @@ for i in range(training_cycles):
     outs = [network(ins) for ins in inputs]
     L = sum((out-exp)**2 for out, exp in zip(outs, outputs))
 
-    for p in network.parameters():
+    for p in network.parameters(): # Make sure to zero the grads!
         p.grad = 0
     
-    L.backward()
+    L.backward() # Backward step
 
-    for p in network.parameters():
+    for p in network.parameters(): # Modify weights based on grads
         p.data += -step * p.grad
     
     print(f'Training step {i+1}: {L.data} loss')
