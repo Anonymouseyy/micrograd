@@ -40,10 +40,10 @@ class Convolutional_Layer2D_Flatten:
     def __call__(self, x):
         outs = []
 
-        for i in self.shapein[0]//self.stride:
-            for j in self.shapein[1]//self.stride:
+        for i in range(self.shapein[0]//self.stride+1):
+            for j in range(self.shapein[1]//self.stride+1):
                 inputs = [x[k+i][l+j] if k+i<self.shapein[0] and k+l<self.shapein[1] else 0 
-                          for k in self.kernelsize[0] for l in self.kernelsize[1] ]
+                          for k in range(self.kernelsize[0]) for l in range(self.kernelsize[1])]
                 outs.append(self.kernel(inputs))
 
         return outs
@@ -71,7 +71,7 @@ class MLP:
 class CNN:
     def __init__(self, conv, nouts):
         self.conv_layer = Convolutional_Layer2D_Flatten(*conv)
-        self.MLP = MLP((conv[0][0]//conv[2])*(conv[0][1]//conv[2]), nouts)
+        self.MLP = MLP((conv[0][0]//conv[2]+1)*(conv[0][1]//conv[2]+1), nouts)
     
     def __call__(self, x):
         x = self.conv_layer(x)
