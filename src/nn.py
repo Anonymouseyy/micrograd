@@ -42,7 +42,7 @@ class Convolutional_Layer2D_Flatten:
 
         for i in range(self.shapein[0]//self.stride+1):
             for j in range(self.shapein[1]//self.stride+1):
-                inputs = [x[k+i][l+j] if k+i<self.shapein[0] and k+l<self.shapein[1] else 0 
+                inputs = [x[k+i][l+j] if k+i<self.shapein[0] and l+j<self.shapein[1] else 0 
                           for k in range(self.kernelsize[0]) for l in range(self.kernelsize[1])]
                 outs.append(self.kernel(inputs))
 
