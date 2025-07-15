@@ -83,6 +83,9 @@ class Value:
     
     def log(self):
         n = self.data
+        if n <= 0:
+            raise ValueError("Cannot take log of non-positive value")
+        
         out = Value(math.log(n), (self, ), 'log')
 
         def _backward():
